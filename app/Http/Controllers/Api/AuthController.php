@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\LoginRequest;
 use App\Services\Auth\AuthService;
 use App\Http\Resources\UserResource;
+use Illuminate\Http\Request;
+use App\Http\Requests\Api\Auth\LogoutRequest;
+
 
 class AuthController extends Controller
 {
@@ -27,6 +30,21 @@ class AuthController extends Controller
                 'user'  => new UserResource($data['user']),
                 'token' => $data['token'],
             ],
+        ], 200);
+    }
+
+    /**
+    * @param LogoutRequest $request
+    * @return \Illuminate\Http\JsonResponse
+    */
+    public function logout(LogoutRequest $request)
+    {
+        $this->authService->logout($request->user());
+
+        return response()->json([
+            'status'  => 'success',
+            'code'    => 'LOGOUT_SUCCESS',
+            'message' => 'تم تسجيل الخروج بنجاح.'
         ], 200);
     }
 }

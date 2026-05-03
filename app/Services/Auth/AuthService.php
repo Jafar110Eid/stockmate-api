@@ -49,4 +49,27 @@ class AuthService
             'token' => $token,
         ];
     }
+
+    /*
+     * @param \App\Models\User $user
+     * @return bool
+     */
+    public function logout(\App\Models\User $user): bool
+    {
+        /** @var \Laravel\Sanctum\PersonalAccessToken|null $token */
+        $token = $user->currentAccessToken();
+
+        if ($token) {
+            $token->delete();
+        }
+
+        return true;
+    }
+
+
+
+
+
+
+
 }
